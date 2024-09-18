@@ -68,6 +68,25 @@ class EventsController {
       });
     }
   }
+  static async deleteEvent(req, res) {
+    try {
+      const event = await Events.findOne({ _id: req.params.id });
+      if (!event) {
+        return res
+          .status(400)
+          .json({ message: "no ivent to delete", status: "failure" });
+      }
+      return res
+        .status(200)
+        .json({ status: "success", message: "your data to delete is this", data: event });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({
+        status: "error",
+        message: "failed to acess to db",
+      });
+    }
+  }
   static async getEvents(req, res) {
     try {
       const events = await Events.find();
