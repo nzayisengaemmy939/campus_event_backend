@@ -20,6 +20,10 @@ const eventsSchema = new Schema({
     type: Date,
     required: true,
   },
+  status:{
+    type:String,
+default:"comming"
+  },
   time: {
     type: String,
     required: true,
@@ -46,6 +50,18 @@ const eventsSchema = new Schema({
     default: [],
   },
   dislikes: {
+    type: [String],
+    default: [],
+  },
+  accept: {
+    type: [String],
+    default: [],
+  },
+  viewedBy:{
+    type: [String],
+    default: [],
+  },
+  decline: {
     type: [String],
     default: [],
   },

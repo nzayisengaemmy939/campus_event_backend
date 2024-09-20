@@ -23,8 +23,8 @@ class UserController {
           status: "failure",
         });
       }
-      const token=jwt.sign({email,userName,lastName,firstName},process.env.JWT_SECRET,{expiresIn:"1d",})
-      console.log(token,"token to be send")
+      // const token=jwt.sign({email,userName,lastName,firstName},process.env.JWT_SECRET,{expiresIn:"1d",})
+      // console.log(token,"token to be send")
       // Hash the password
       const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -74,6 +74,27 @@ class UserController {
         status: "success",
         message: "User Profile exist",
         data: singleUser,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: "Fail",
+        message: error.message,
+      });
+    }
+  }
+  static async deleteUser(req, res) {
+    try {
+      const deletedUser = await User.findOne({ _id: req.params.id });
+      if (!deletedUser) {
+        return res.status(400).json({
+          status: "Fail",
+          message: "user with that Id does not exist!",
+        });
+      }
+      return res.status(200).json({
+        status: "success",
+        message: "User deleted successfully",
+        data: deletedUser ,
       });
     } catch (error) {
       return res.status(500).json({

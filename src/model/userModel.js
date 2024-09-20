@@ -10,7 +10,6 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-
   userName: {
     type: String,
     required: true,
@@ -23,11 +22,10 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  role:{
-    type:"String",
-    default:"user"
+  role: {
+    type: String,
+    default: "admin"
   },
-
   createdAt: {
     type: Date,
     default: Date.now,
@@ -36,6 +34,16 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+
+  // Add subscription field for push notifications
+  // subscription: {
+  //   endpoint: { type: String },   // URL where the push message will be sent
+  //   keys: {
+  //     p256dh: { type: String },   // Public encryption key
+  //     auth: { type: String },     // Authentication key
+  //   },
+  // },
+
   resetToken: String,
   resetTokenExpiration: Date
 });
