@@ -1,0 +1,3 @@
+[build]
+  publish = "build"  # Change this to the directory where your built files are located
+  command = "npm run build"  # Change this to your actual build command
