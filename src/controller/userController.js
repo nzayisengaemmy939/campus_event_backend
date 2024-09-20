@@ -8,7 +8,7 @@ class UserController {
   static async registerUser(req, res) {
     try {
       const { userName, password, email, lastName, firstName } = req.body;
-
+console.log(req.body,"data from req.body")
       // Basic validation
       if (!userName || !password || !email || !lastName || !firstName) {
         return res.status(400).json({
