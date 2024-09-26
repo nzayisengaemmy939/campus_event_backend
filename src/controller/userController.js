@@ -39,7 +39,7 @@ console.log(req.body,"data from req.body")
 
       console.log("User saved:", newUser);
 
-      return res.status(201).json({
+      return res.status(200).json({
         status: "success",
         message: "User registered successfully",
         user: newUser,
@@ -206,7 +206,8 @@ console.log(req.body,"data from req.body")
   static async loginUser(req, res) {
     try {
       const { email, password } = req.body;
-  
+      console.log("Email received:", email);
+
       // Find the user by email
       const userFound = await User.findOne({ email });
       if (!userFound) {
@@ -215,6 +216,8 @@ console.log(req.body,"data from req.body")
           message: "Account does not exist",
         });
       }
+      console.log("User found:", userFound);
+
   
       // Compare the provided password with the hashed password in the database
       const isPasswordValid = await bcrypt.compare(password, userFound.password);

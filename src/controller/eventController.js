@@ -1,7 +1,7 @@
 import Events from "../model/eventModel.js";
 import User from "../model/userModel.js";
 // import getEventStatus from "../status/status.js";
-import Notification from "../model/notificationModel.js"
+import Notification from "../model/notificationModel.js";
 import EventStatus from "../status/status.js";
 import webpush from "web-push";
 class EventsController {
@@ -19,7 +19,7 @@ class EventsController {
       }
 
       const eventsOwner = req.user.userId;
-
+      const name = req.user.firstName;
       // Ensure the user ID is present
       if (!eventsOwner) {
         return res
@@ -36,6 +36,7 @@ class EventsController {
         locationLink,
         locationName,
         owner: eventsOwner,
+        name: name,
       });
 
       console.log("Event saved:", event);
@@ -47,7 +48,7 @@ class EventsController {
       const notificationPromises = users.map(async (user) => {
         const notification = new Notification({
           userId: user._id,
-          owner:req.user.userId,
+          owner: req.user.userId,
           title: req.user.firstName,
           message: `added new event ${event.title}`,
         });
@@ -79,7 +80,7 @@ class EventsController {
       if (!event) {
         return res
           .status(400)
-          .json({ message: "ivent data", status: "failure" });
+          .json({ message: "no ivent data", status: "failure" });
       }
       return res
         .status(200)
