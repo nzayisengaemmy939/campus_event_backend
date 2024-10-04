@@ -6,8 +6,9 @@
 "scripts": {
   "start": "node index.js",
   "dev": "nodemon index.js",
-  "build": "copyfiles -u 1 src/**/* build" 
+  "build": "echo 'No build step defined.'"  
 },
+
 
 
   "author": "Emmy",

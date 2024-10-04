@@ -1,0 +1,10 @@
+[[redirects]]
+  from = "/*"
+  to = "/index.js"
+  status = 200
+
+[build]
+  publish = "campus_event_backend"  # This should be the directory with your built files if you have any.
+  command = "npm run build"          # Command to build your project.
+
+# Optional: If you want to configure headers or other settings, you can do that here.
