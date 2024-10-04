@@ -1,3 +1,0 @@
-[code_alpha_campus_event]
-  publish = "code_alpha_campus_event"  # Directory where built files are located
-  command = "npm run build"  # Your build command
