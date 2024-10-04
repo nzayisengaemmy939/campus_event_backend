@@ -235,6 +235,7 @@ console.log(req.body,"data from req.body")
         role: userFound.role,
         email: userFound.email,
         firstName: userFound.firstName,
+        username:userFound.userName,
       }, process.env.JWT_SECRET, { expiresIn: "1d" });
   
       // Return success response with the token and user info
@@ -242,6 +243,7 @@ console.log(req.body,"data from req.body")
         status: "success",
         message: "Logged in successfully",
         token,
+        userName:userFound.userName,
         role: userFound.role,
         user: {
           userId: userFound._id,

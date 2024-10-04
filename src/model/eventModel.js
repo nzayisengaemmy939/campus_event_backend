@@ -6,7 +6,10 @@ const eventsSchema = new Schema({
     type: String,
     required: true,
   },
-
+name:{
+  type: String,
+  // required: true,
+},
   title: {
     type: String,
     required: true,
@@ -33,6 +36,10 @@ default:"comming"
     // required: true,
   },
   locationName: {
+    type: "String",
+    required: true,
+  },
+  category: {
     type: "String",
     required: true,
   },

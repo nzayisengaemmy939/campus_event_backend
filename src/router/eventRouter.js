@@ -33,7 +33,7 @@ eventRouter.delete(
   EventsController.deleteEvent
 );
 
-eventRouter.patch(
+eventRouter.put(
   "/update_event/:id",
   checkMiddleware.authenticateToken, // Authenticate first
   checkMiddleware.checkClientAndAdmin, // Then check role

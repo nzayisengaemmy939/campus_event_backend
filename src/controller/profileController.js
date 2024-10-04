@@ -74,25 +74,38 @@ class ProfileController {
   static async editProfile(req, res) {
     try {
       const { file } = req.body;
-      const edit = await Profile.findOne({ _id: req.params.id });
+      const profileId = req.params.id;
 
-      if (!edit) {
+      // Check if the file exists in the request body
+      if (!file) {
+        return res.status(400).json({ error: "No file provided" });
+      }
+
+      // Fetch the profile using the provided ID
+      const profile = await Profile.findOne({ _id: profileId });
+
+      if (!profile) {
         return res.status(404).json({ error: "Profile not found" });
       }
 
+      // Update the file attribute if a file is provided
       if (file) {
-        edit.file = file;
+        profile.file = file;
       }
 
-      await edit.save();
+      // Save the updated profile
+      await profile.save();
+
+      // Return the updated profile
       return res.status(200).json({
         status: "success",
         message: "Profile updated successfully",
-        data: edit,
+        data: profile,
       });
+
     } catch (error) {
       console.error("Error editing profile:", error);
-      res.status(500).json({ error: "Failed to edit profile" });
+      return res.status(500).json({ error: "Failed to edit profile" });
     }
   }
 

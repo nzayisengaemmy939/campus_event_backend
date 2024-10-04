@@ -10,6 +10,14 @@ const notificationSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  eventId:{
+    type: String,
+    required: true
+  },
+  name:{
+    type: String,
+    required: true
+  },
   title: {
     type: String,
     required: true

@@ -7,7 +7,7 @@ static async getNotifications(req, res) {
       const userId = req.user.userId; // Get the logged-in user's ID
   
       // Fetch notifications for the user
-      const notifications = await Notification.find({ userId }).sort({ createdAt: -1 });
+      const notifications = await Notification.find({ userId }).sort({ createdAt: 1 });
   
       return res.status(200).json({
         status: "success",

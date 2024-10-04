@@ -7,11 +7,11 @@ import webpush from "web-push";
 class EventsController {
   static async registerEvents(req, res) {
     try {
-      const { title, description, date, time, locationLink, locationName } =
+      const { title, description, date, time, locationLink, locationName,category } =
         req.body;
 
       // Basic validation
-      if (!title || !description || !date || !time || !locationName) {
+      if (!title || !description || !date || !time || !locationName||!category) {
         return res.status(400).json({
           status: "error",
           message: "All fields are required except location link",
@@ -33,6 +33,7 @@ class EventsController {
         description,
         date,
         time,
+        category,
         locationLink,
         locationName,
         owner: eventsOwner,
@@ -49,7 +50,9 @@ class EventsController {
         const notification = new Notification({
           userId: user._id,
           owner: req.user.userId,
-          title: req.user.firstName,
+          title: event.title,
+          name:req.user.firstName,
+          eventId:event._id,
           message: `added new event ${event.title}`,
         });
 
@@ -98,25 +101,31 @@ class EventsController {
       const event = await Events.findOne({ _id: req.params.id });
       if (!event) {
         return res
-          .status(400)
-          .json({ message: "no ivent to delete", status: "failure" });
+          .status(404)
+          .json({ message: "no event to delete", status: "failure" });
       }
+  
+      // Proceed to delete the event
+      await Events.deleteOne({ _id: req.params.id });
+  
       return res.status(200).json({
         status: "success",
-        message: "your data to delete is this",
-        data: event,
+        message: "event deleted successfully",
+        data: event, // You can return the deleted event if needed
       });
     } catch (err) {
       console.error(err);
       return res.status(500).json({
         status: "error",
-        message: "failed to acess to db",
+        message: "failed to access the database",
       });
     }
   }
+  
   static async getEvents(req, res) {
     try {
-      const events = await Events.find();
+      const sortOrder = req.query.order === 'asc' ? 1 : -1;
+      const events = await Events.find().sort({createdAt:sortOrder});
       if (!events.length) {
         return res
           .status(400)
@@ -137,7 +146,7 @@ class EventsController {
   }
   static async updateSingleEvent(req, res) {
     try {
-      const { title, description, date, time, locationLink, locationName } =
+      const { title,category, description, date, time, locationLink, locationName } =
         req.body;
 
       // Find the event by ID
@@ -153,6 +162,9 @@ class EventsController {
       // Update event details
       if (title) {
         event.title = title;
+      }
+      if (category) {
+        event.category =category;
       }
       if (description) {
         event.description = description;
@@ -173,7 +185,9 @@ class EventsController {
       event.updatedAt = new Date(); // Update the `updatedAt` timestamp
 
       // Save the updated event
-      await event.save();
+      await event.save({ validateBeforeSave: false });
+    
+
 
       return res.status(200).json({
         status: "success",
@@ -188,8 +202,10 @@ class EventsController {
     }
   }
   static async ownerEvent(req, res) {
+    // const sortOrder = req.query.order === 'asc' ? 1 : -1;
+    // var sortOrder=req.query.order ==='asc'?1:-1;
     try {
-      const event = await Events.findOne({ owner: req.params.owner });
+      const event = await Events.find({ owner: req.params.owner })
       if (!event) {
         return res
           .status(400)
@@ -229,20 +245,18 @@ class EventsController {
 
       // Check if the user is already in the attendee list
       if (event.attendes.includes(userId)) {
-        return res.status(400).json({
-          message: "You are already attending this event",
-          status: "failure",
-        });
+        // Remove the user from the likes array if already liked
+        event.attendes.pull(userId);
+      } else {
+        // Add the user to the likes array
+        event.attendes.push(userId);
       }
-
-      // Add the user to the attendees list
-      event.attendes.push(userId);
       await event.save({ validateBeforeSave: false });
 
       return res.status(200).json({
         status: "success",
         message: "You are now attending the event",
-        data: event.attendes,
+        data: event.attendes.length,
       });
     } catch (err) {
       console.error(err);
@@ -284,7 +298,7 @@ class EventsController {
       return res.status(200).json({
         status: "success",
         message: "Now you liked events",
-        data: event.likes,
+        data: event.likes.length,
       });
     } catch (err) {
       console.error(err);
@@ -323,7 +337,7 @@ class EventsController {
       return res.status(200).json({
         status: "success",
         message: "Now you disliked events",
-        data: event.dislikes,
+        data: event.dislikes.length,
       });
     } catch (err) {
       console.error(err);
