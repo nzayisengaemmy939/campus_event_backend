@@ -3,19 +3,21 @@
   "version": "1.0.0",
   "description": "to check flutter",
   "main": "index.js",
-  "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
-    "build": "babel src -d dist"  
-  },
+ "scripts": {
+  "start": "node index.js",
+  "dev": "nodemon index.js",
+  "build": "copyfiles -u 1 src/**/* dist" 
+},
+
   "author": "Emmy",
   "license": "ISC",
   "type": "module",
   "devDependencies": {
-    "nodemon": "^3.1.4",
-    "@babel/core": "^7.0.0",       
-    "@babel/cli": "^7.0.0",        
-    "@babel/preset-env": "^7.0.0"   
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "copyfiles": "^2.4.1",
+    "nodemon": "^3.1.4"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
