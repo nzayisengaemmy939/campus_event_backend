@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "description": "to check flutter",
   "main": "index.js",
- "scripts": {
+"scripts": {
   "start": "node index.js",
   "dev": "nodemon index.js",
-  "build": "copyfiles -u 1 src/**/* dist" 
+  "build": "copyfiles -u 1 src/**/* build" 
 },
+
 
   "author": "Emmy",
   "license": "ISC",
