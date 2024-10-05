@@ -3,15 +3,11 @@
   "version": "1.0.0",
   "description": "to check flutter",
   "main": "index.js",
-"scripts": {
-  "start": "node index.js",
-  "dev": "nodemon index.js",
-   "rebuild": "npm rebuild bcrypt --build-from-source"
- 
-},
-
-
-
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "rebuild": "npm rebuild bcrypt --build-from-source"
+  },
   "author": "Emmy",
   "license": "ISC",
   "type": "module",
@@ -23,7 +19,7 @@
     "nodemon": "^3.1.4"
   },
   "dependencies": {
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
     "cloudinary": "^2.5.0",
     "cors": "^2.8.5",

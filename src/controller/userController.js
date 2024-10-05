@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt"; // Ensure you have bcrypt installed
+import bcryptjs from 'bcryptjs';
 import User from "../model/userModel.js";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
@@ -26,7 +26,7 @@ console.log(req.body,"data from req.body")
       // const token=jwt.sign({email,userName,lastName,firstName},process.env.JWT_SECRET,{expiresIn:"1d",})
       // console.log(token,"token to be send")
       // Hash the password
-      const hashedPassword = await bcrypt.hash(password, 10);
+      const hashedPassword = await bcryptjs.hash(password, 10);
 
       // Create new user with hashed password
       const newUser = await User.create({
@@ -220,7 +220,7 @@ console.log(req.body,"data from req.body")
 
   
       // Compare the provided password with the hashed password in the database
-      const isPasswordValid = await bcrypt.compare(password, userFound.password);
+      const isPasswordValid = await bcryptjs.compare(password, userFound.password);
       console.log(isPasswordValid)
       if (!isPasswordValid) {
         return res.status(400).json({
