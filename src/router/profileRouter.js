@@ -25,7 +25,8 @@ profileRouter.get(
   ProfileController.getAllProfiles
 );
 profileRouter.put(
-  "/edit_profile/:id",// Ensure file is uploaded before processing
+  "/edit_profile/:owner",
+  upload.single("file"), // Ensure file is uploaded before processing
   ProfileController.editProfile
 );
 profileRouter.get(
