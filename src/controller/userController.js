@@ -22,7 +22,7 @@ class UserController {
       // Validate email using the UserVerify class
       if (!UserVerify.validateEmail(email)) {
         return res.status(400).json({
-          status: "error",
+          status: "errorrrr",
           message: "Invalid email format",
         });
       }
