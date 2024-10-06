@@ -54,7 +54,7 @@ console.log(req.body,"data from req.body")
   }
   static async getUsers(req, res) {
     try {
-      const allUsers = await User.find();
+      const allUsers = await User.find().sort({createdAt:1});
       return res.status(200).json({ data: allUsers, message: "All users" });
     } catch (error) {
       console.log(error);
@@ -91,6 +91,7 @@ console.log(req.body,"data from req.body")
           message: "user with that Id does not exist!",
         });
       }
+      await User.deleteOne({ _id: req.params.id });
       return res.status(200).json({
         status: "success",
         message: "User deleted successfully",
