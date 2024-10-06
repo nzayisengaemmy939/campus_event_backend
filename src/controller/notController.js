@@ -21,6 +21,37 @@ static async getNotifications(req, res) {
       });
     }
   }
+  static async deleteNotifications(req, res) {
+    try {
+      // Get the logged-in user's ID (if needed)
+      
+      // Fetch the notification for the given ID
+      const notification = await Notification.findOne({ _id: req.params.id });
+  
+      // Check if the notification exists
+      if (!notification) {
+        return res.status(404).json({
+          status: "failed",
+          message: "Notification not found",
+        });
+      }
+  
+      // Delete the notification
+      await Notification.deleteOne({ _id: req.params.id });
+  
+      return res.status(200).json({
+        status: "success",
+        message: "Notification deleted successfully",
+      });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({
+        status: "error",
+        message: "Server error",
+      });
+    }
+  }
+  
 }
 export default getNotification
   
