@@ -8,37 +8,55 @@ class UserController {
   static async registerUser(req, res) {
     try {
       const { userName, password, email, lastName, firstName } = req.body;
-console.log(req.body,"data from req.body")
-      // Basic validation
+      console.log(req.body, "data from req.body");
+  
+      // Basic validation: Check for missing fields
       if (!userName || !password || !email || !lastName || !firstName) {
         return res.status(400).json({
           status: "error",
           message: "All fields are required",
         });
       }
+  
+      // Validate email using the UserVerify class
+      if (!UserVerify.validateEmail(email)) {
+        return res.status(400).json({
+          status: "error",
+          message: "Invalid email format",
+        });
+      }
+  
+      // Validate password strength using the UserVerify class
+      if (!UserVerify.verifyStrongPassword(password)) {
+        return res.status(400).json({
+          status: "error",
+          message: "Password must be at least 4 characters",
+        });
+      }
+  
+      // Check if the user already exists with the same email
       const existingUser = await User.findOne({ email });
       if (existingUser) {
         return res.status(409).json({
-          message: "Email already exist",
+          message: "Email already exists",
           status: "failure",
         });
       }
-      // const token=jwt.sign({email,userName,lastName,firstName},process.env.JWT_SECRET,{expiresIn:"1d",})
-      // console.log(token,"token to be send")
+  
       // Hash the password
       const hashedPassword = await bcryptjs.hash(password, 10);
-
+  
       // Create new user with hashed password
       const newUser = await User.create({
         userName,
         lastName,
         firstName,
         email,
-        password:hashedPassword
+        password: hashedPassword,
       });
-
+  
       console.log("User saved:", newUser);
-
+  
       return res.status(200).json({
         status: "success",
         message: "User registered successfully",
@@ -52,6 +70,7 @@ console.log(req.body,"data from req.body")
       });
     }
   }
+  
   static async getUsers(req, res) {
     try {
       const allUsers = await User.find().sort({createdAt:1});
