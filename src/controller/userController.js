@@ -3,6 +3,7 @@ import User from "../model/userModel.js";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 import text  from "body-parser";
+import UserVerify from '../varidation/verify.js';
 
 class UserController {
   static async registerUser(req, res) {
